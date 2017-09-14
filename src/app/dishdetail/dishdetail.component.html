@@ -3,7 +3,7 @@
 
   <!-- Dish description and photo    -->
   <div fxFlex="40">
-      <div fxFlex *ngIf="dish">
+      <div fxFlex *ngIf="dish$ | async as dish">
         <md-card>
           <md-card-header>
             <md-card-title>
@@ -25,7 +25,7 @@
 
   <!-- Comments Section -->
   <div fxFlex="40">
-    <div fxFlex *ngIf="dish">
+    <div fxFlex *ngIf="dish$ | async as dish">
           <md-toolbar>Comments</md-toolbar>
           <md-list fxFlex>
             <!-- <h3>Comments</h3> -->

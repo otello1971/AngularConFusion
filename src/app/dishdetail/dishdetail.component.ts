@@ -1,5 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import 'rxjs/add/operator/switchMap';
+import { Component, OnInit} from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+
+
 import { Dish } from '../shared/dish';
+import { DishService }  from '../services/dish.service';
 
 @Component({
   selector: 'app-dishdetail',
@@ -8,11 +14,18 @@ import { Dish } from '../shared/dish';
 })
 export class DishdetailComponent implements OnInit {
 
-  @Input() dish: Dish;
+  dish$: Observable<Dish>;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private service: DishService
+  ) { }
 
   ngOnInit() {
+    this.dish$ = this.route.paramMap
+      .switchMap((params: ParamMap) =>
+        this.service.getDish(params.get('id')));
   }
 
 }

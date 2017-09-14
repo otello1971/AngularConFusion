@@ -1,4 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Observable';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 
@@ -11,17 +15,22 @@ import { DishService } from '../services/dish.service';
 
 export class MenuComponent implements OnInit {
 
-  dishes: Dish[];
-  selectedDish : Dish;
+  dishes$: Observable<Dish[]>;
+  
+  private selectedId: number;
 
-  constructor(private dishService:DishService) { }
+  constructor(
+        private route: ActivatedRoute,
+        private dishService:DishService
+  ) { }
 
   ngOnInit() {
-    this.dishes = this.dishService.getDishes();
-  }
-
-  onSelect(sd: Dish) {
-    this.selectedDish = sd;
+    this.dishes$ = this.route.paramMap
+     .switchMap((params: ParamMap) => {
+       // (+) before `params.get()` turns the string into a number
+       //this.selectedId = +params.get('id');
+       return this.dishService.getDishes();
+    });
   }
 
 }
