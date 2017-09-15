@@ -28,5 +28,20 @@
       </p>
     </md-card-content>
   </md-card>
+  
+  <!-- Task 3 - featured corporate leader  -->
+  <md-card *ngIf="leader" fxFlex>
+    <md-card-header>
+      <div md-card-avatar></div>
+      <md-card-title>
+        <h3>{{leader.name | uppercase}} {{leader.abbr | uppercase}}</h3>
+      </md-card-title>
+    </md-card-header>
+    <img md-card-image src={{leader.image}} alt={{leader.name}}>
+    <md-card-content>
+        <h4>{{leader.designation}}</h4>
+        {{leader.description}}
+    </md-card-content>
+  </md-card>
 
 </div>
