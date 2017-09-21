@@ -56,20 +56,18 @@
 
         <div fxFlex>
           <h2>Corporate Leadership</h2>
-          <md-grid-list *ngFor="let leader of leaders" cols="5"  rowHeight="1:1" role="list">
-              <md-grid-tile role="listitem">
-                <img src={{leader.image}} class="sm-card-image" alt="{{leader.name}}">
-              </md-grid-tile>
-              <md-grid-tile colspan="4" role="listitem">                      
-                <blockquote>
-                  <h3>{{leader.name}} {{leader.abbr | uppercase}}</h3>
-                  <h4>{{leader.designation}}</h4>
-                  {{leader.description}}
-                </blockquote>
-              </md-grid-tile>
-          </md-grid-list>
+          
+          <md-list>
+            <md-list-item *ngFor="let leader of leaders">
+              <img mdListAvatar src="{{leader.image}}" alt="{{leader.name}}">
+              <h3 mdLine> {{leader.name}} {{leader.abbr | uppercase}} </h3>
+              <p mdLine>
+                <span> {{leader.designation}} </span>
+                <span class="demo-2"> {{leader.description}} </span>
+              </p>
+            </md-list-item>
+          </md-list>
 
-
-       </div>
+        </div>
 </div>
 
