@@ -2,6 +2,8 @@ import { Component, OnInit} from '@angular/core';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 
+//import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -18,7 +20,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.dishService.getDishes()
-    .then(dishes => this.dishes = dishes);
+        .subscribe(dishes => this.dishes = dishes);
   }
 
 }

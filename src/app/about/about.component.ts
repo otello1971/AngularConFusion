@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Leader } from '../shared/leader';
 import { LeaderService } from '../services/leader.service';
 
+//import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
@@ -16,7 +18,7 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
     this.leaderService.getLeaders()
-        .then(leaders => this.leaders = leaders);
+        .subscribe(leaders => this.leaders = leaders);
   }
 
 }

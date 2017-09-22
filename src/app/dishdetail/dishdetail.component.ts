@@ -5,6 +5,8 @@ import { DishService } from '../services/dish.service';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
@@ -22,7 +24,7 @@ export class DishdetailComponent implements OnInit {
     ngOnInit() {
       let id = +this.route.snapshot.params['id'];
       this.dishservice.getDish(id)
-        .then(dish => this.dish = dish);;
+        .subscribe(dish => this.dish = dish);;
     }
   
     goBack(): void {
