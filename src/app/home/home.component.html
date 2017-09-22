@@ -14,6 +14,13 @@
       </p>
     </md-card-content>
   </md-card>
+  <md-card fxFlex *ngIf="!dish">
+    <md-card-content>
+      <md-spinner></md-spinner>
+      <h4>Loading . . . Please Wait</h4>
+    </md-card-content>
+  </md-card>
+
 
   <md-card *ngIf="promotion" fxFlex>
     <md-card-header>
@@ -28,7 +35,13 @@
       </p>
     </md-card-content>
   </md-card>
-  
+  <md-card fxFlex *ngIf="!promotion">
+    <md-card-content>
+      <md-spinner></md-spinner>
+      <h4>Loading . . . Please Wait</h4>
+    </md-card-content>
+  </md-card>
+
   <!-- Task 3 - featured corporate leader  -->
   <md-card *ngIf="leader" fxFlex>
     <md-card-header>
@@ -39,8 +52,14 @@
     </md-card-header>
     <img md-card-image src={{leader.image}} alt={{leader.name}}>
     <md-card-content>
-        <h4>{{leader.designation}}</h4>
-        {{leader.description}}
+      <h4>{{leader.designation}}</h4>
+      {{leader.description}}
+    </md-card-content>
+  </md-card>
+  <md-card fxFlex *ngIf="!leader">
+    <md-card-content>
+      <md-spinner></md-spinner>
+      <h4>Loading . . . Please Wait</h4>
     </md-card-content>
   </md-card>
 
