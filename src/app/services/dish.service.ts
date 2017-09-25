@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Dish } from '../shared/dish';
+import { Dish, arrayOfDishes } from '../shared/dish';
 import { DISHES } from '../shared/dishes';
 
 import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 
 //import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/delay';
@@ -11,10 +12,10 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class DishService {
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
 
   getDishes(): Observable<Dish[]> {
-    return Observable.of(DISHES).delay(2000);
+    return this.http.get<Dish[]>('http://localhost:3000/dishes');
   }
 
   getDish(id: number): Observable<Dish> {

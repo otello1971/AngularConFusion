@@ -11,3 +11,7 @@ export class Dish {
     description: string;
     comments: Comment[];
 }
+
+export interface arrayOfDishes {
+    dishesArray: Dish[];
+  }
