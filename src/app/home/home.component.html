@@ -8,19 +8,20 @@
         <h3>{{dish.name | uppercase}}</h3>
       </md-card-title>
     </md-card-header>
-    <img md-card-image src={{dish.image}} alt={{dish.name}}>
+    <img md-card-image src="{{BaseURL + dish.image}}" alt={{dish.name}}>
     <md-card-content>
       <p>{{dish.description}}
       </p>
     </md-card-content>
   </md-card>
-  <md-card fxFlex *ngIf="!dish">
-    <md-card-content>
-      <md-spinner></md-spinner>
-      <h4>Loading . . . Please Wait</h4>
-    </md-card-content>
-  </md-card>
-
+  <div [hidden]="dish || dishErrMess">
+    <md-spinner></md-spinner>
+    <h4>Loading . . . Please Wait</h4>
+  </div>
+  <div *ngIf="dishErrMess">
+    <h2>Error</h2>
+    <h4>{{dishErrMess}}</h4>
+  </div>
 
   <md-card *ngIf="promotion" fxFlex>
     <md-card-header>
@@ -35,14 +36,15 @@
       </p>
     </md-card-content>
   </md-card>
-  <md-card fxFlex *ngIf="!promotion">
-    <md-card-content>
-      <md-spinner></md-spinner>
-      <h4>Loading . . . Please Wait</h4>
-    </md-card-content>
-  </md-card>
+  <div [hidden]="promotion || promotionErrMess">
+    <md-spinner></md-spinner>
+    <h4>Loading . . . Please Wait</h4>
+  </div>
+  <div *ngIf="promotionErrMess">
+    <h2>Error</h2>
+    <h4>{{promotionErrMess}}</h4>
+  </div>
 
-  <!-- Task 3 - featured corporate leader  -->
   <md-card *ngIf="leader" fxFlex>
     <md-card-header>
       <div md-card-avatar></div>
@@ -50,17 +52,19 @@
         <h3>{{leader.name | uppercase}} {{leader.abbr | uppercase}}</h3>
       </md-card-title>
     </md-card-header>
-    <img md-card-image src={{leader.image}} alt={{leader.name}}>
+    <img md-card-image src="{{BaseURL + leader.image}}" alt={{leader.name}}>
     <md-card-content>
       <h4>{{leader.designation}}</h4>
       {{leader.description}}
     </md-card-content>
   </md-card>
-  <md-card fxFlex *ngIf="!leader">
-    <md-card-content>
-      <md-spinner></md-spinner>
-      <h4>Loading . . . Please Wait</h4>
-    </md-card-content>
-  </md-card>
+  <div [hidden]="leader || leaderErrMess">
+    <md-spinner></md-spinner>
+    <h4>Loading . . . Please Wait</h4>
+  </div>
+  <div *ngIf="leaderErrMess">
+    <h2>Error</h2>
+    <h4>{{leaderErrMess}}</h4>
+  </div>
 
 </div>

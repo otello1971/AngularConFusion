@@ -10,7 +10,7 @@
                 <h3>{{dish.name | uppercase}}</h3>
               </md-card-title>
             </md-card-header>
-            <img md-card-image src={{dish.image}} alt={{dish.name}}>
+            <img md-card-image src="{{BaseURL + dish.image}}" alt={{dish.name}}>
             <md-card-content>
               <p>{{dish.description}}
               </p>
@@ -26,16 +26,17 @@
           </md-card>
         </div>
       </div>
-      <div fxFlex fxLayout="column" fxLayoutAlign="stretch" >
-        <div fxFlex="grow" *ngIf="dish">
+      <div fxFlex fxLayout="column" fxLayoutAlign="stretch" *ngIf="dish">
+        <div fxFlex="grow">
           <md-list fxFlex>
             <h3>Comments</h3>
+          <!-- Comment List -->            
             <md-list-item class="md-3-line" *ngFor="let comment of dish.comments">
               <p md-line>{{comment.comment}}</p>
               <p md-line>{{comment.rating}} stars</p>
               <p md-line>-- {{comment.author}} {{comment.date | date}}</p>
             </md-list-item>
-          <!-- Assignment 3: TASK 3 : Comment preview -->
+          <!-- Comment preview -->
             <md-list-item class="md-3-line" *ngIf="commentForm.valid">
                 <p md-line>{{comment.comment}}</p>
                 <p md-line>{{comment.rating}} stars</p>
@@ -44,13 +45,12 @@
           </md-list>
         </div>
         <div fxFlex class="form-size">
-          <!-- Assignment 3: TASK 1 : Reactive Form for Evaluation & Commnets -->
+          <!--Reactive Form  -->
           <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
             <!-- Input Text : Name -->
             <p>
               <md-input-container class="full-width" dividerColor="{{(formErrors.author) ? 'warn' : 'primary'}}">
                 <input mdInput formControlName="author" placeholder="Name" type="text" required>
-                <!-- task 2 :  the user is alerted -->
                 <md-hint>
                   <span [hidden]="!(formErrors.author)">{{formErrors.author}}</span>
                 </md-hint>
@@ -64,7 +64,6 @@
             <p>
               <md-input-container class="full-width">
                 <textarea mdInput formControlName="comment" placeholder="Your Comment" rows="6"></textarea>
-                <!-- task 2 :  the user is alerted -->
                 <md-hint>
                     <span [hidden]="!(formErrors.comment)">{{formErrors.comment}}</span>
                 </md-hint>
@@ -76,6 +75,13 @@
           </form>
           <!-- End of the Reactive Form -->
         </div>
+      </div>
+      <div [hidden]="dish || errMess">
+        <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
+      </div>
+      <div *ngIf="errMess">
+        <h2>Error</h2>
+        <h4>{{errMess}}</h4>
       </div>
     </div>
 

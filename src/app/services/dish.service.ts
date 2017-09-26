@@ -1,33 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Dish, arrayOfDishes } from '../shared/dish';
-import { DISHES } from '../shared/dishes';
+import { HttpClient } from '@angular/common/http';
+import { baseURL } from '../shared/baseurl';
+//import { ProcessHTTPMsgService } from './process-httpmsg.service';
 
 import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
 
-//import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/observable/of';
+import { Dish } from '../shared/dish';
+
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+
+
 
 @Injectable()
 export class DishService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getDishes(): Observable<Dish[]> {
-    return this.http.get<Dish[]>('http://localhost:3000/dishes');
+    return this.http.get<Dish[]>(baseURL + 'dishes');
   }
 
   getDish(id: number): Observable<Dish> {
-    return Observable.of(DISHES.filter((dish) => (dish.id === id))[0]).delay(2000);
+    return  this.http.get<Dish>(baseURL + 'dishes/'+ id);
   }
 
   getFeaturedDish(): Observable<Dish> {
-    return Observable.of(DISHES.filter((dish) => dish.featured)[0]).delay(2000);
+    return this.http.get<Dish>(baseURL + 'dishes?featured=true');
   }
 
   getDishIds(): Observable<number[]> {
-    return Observable.of(DISHES.map(dish => dish.id ));
+    return this.getDishes()
+      .map(dishes => { return dishes.map(dish => dish.id) });
   }
 
 }

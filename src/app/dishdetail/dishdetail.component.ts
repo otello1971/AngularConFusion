@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Dish } from '../shared/dish';
 import { Comment } from '../shared/comment';
 import { DishService } from '../services/dish.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -26,6 +27,8 @@ export class DishdetailComponent implements OnInit {
     commentForm: FormGroup;
     comment: Comment;
 
+    errMess: string;
+
     formErrors = {
       'author': '',
       'comment': ''
@@ -44,17 +47,22 @@ export class DishdetailComponent implements OnInit {
     constructor(private dishservice: DishService,
       private route: ActivatedRoute,
       private location: Location,
-      private fb: FormBuilder) { }
+      private fb: FormBuilder,
+      @Inject('BaseURL') private BaseURL) { }
   
     ngOnInit() {
-      // let id = +this.route.snapshot.params['id'];
-      // this.dishservice.getDish(id)
-      //   .subscribe(dish => this.dish = dish);;
-
       this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
       this.route.params
         .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
-        .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+        .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.errMess = `An error occurred: ${err.error.message}`;
+          } else {
+            this.errMess =`Backend returned code ${err.status} body was: ${err.error}`;
+          }
+        }
+      );
       
       this.createForm();
     }
@@ -98,7 +106,6 @@ export class DishdetailComponent implements OnInit {
         }
       }
 
-      // Assigment 3 : Task 3
       this.comment = null;  
       if (this.commentForm.valid){
         this.comment = this.commentForm.value;
@@ -108,7 +115,6 @@ export class DishdetailComponent implements OnInit {
     }
 
     onSubmit() {
-      // Assigment 3 : Task 3
       this.comment.date = new Date()
         .toISOString();
       this.comment = this.commentForm.value;

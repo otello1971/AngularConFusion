@@ -52,7 +52,7 @@ import { baseURL } from './shared/baseurl';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   providers: [DishService, PromotionService, LeaderService,
     {provide: 'BaseURL', useValue: baseURL}],
