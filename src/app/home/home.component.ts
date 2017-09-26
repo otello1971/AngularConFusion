@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.dishservice.getFeaturedDish()
-        .subscribe(dish => this.dish = dish[0],
+        .subscribe(dish => this.dish = dish,
           (err: HttpErrorResponse) => {
             if (err.error instanceof Error) {
               this.dishErrMess = `An error occurred: ${err.error.message}`;
