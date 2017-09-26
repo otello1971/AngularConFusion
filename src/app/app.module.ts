@@ -10,6 +10,10 @@ import 'hammerjs';
 // Import HttpClientModule from @angular/common/http
 import {HttpClientModule} from '@angular/common/http';
 
+// Restangular 
+import { RestangularModule, Restangular } from 'ngx-restangular';
+import { RestangularConfigFactory } from './shared/restConfig';
+
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
@@ -52,7 +56,8 @@ import { baseURL } from './shared/baseurl';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RestangularModule.forRoot(RestangularConfigFactory)
   ],
   providers: [DishService, PromotionService, LeaderService,
     {provide: 'BaseURL', useValue: baseURL}],
