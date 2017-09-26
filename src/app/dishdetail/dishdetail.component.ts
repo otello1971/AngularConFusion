@@ -8,7 +8,6 @@ import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-//import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -20,6 +19,7 @@ import 'rxjs/add/operator/switchMap';
 export class DishdetailComponent implements OnInit {
   
     dish: Dish;
+    dishcopy = null;  //used by Restangular
     dishIds: number[];
     prev: number;
     next: number;
@@ -53,8 +53,8 @@ export class DishdetailComponent implements OnInit {
     ngOnInit() {
       this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
       this.route.params
-        .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
-        .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); },
+      .switchMap((params: Params) => { return this.dishservice.getDish(+params['id']); })
+      .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
             this.errMess = `An error occurred: ${err.error.message}`;
@@ -118,7 +118,9 @@ export class DishdetailComponent implements OnInit {
       this.comment.date = new Date()
         .toISOString();
       this.comment = this.commentForm.value;
-      this.dish.comments.push(this.comment);
+      this.dishcopy.comments.push(this.comment);
+      this.dishcopy.save()
+        .subscribe(dish => { this.dish = dish; console.log(this.dish); });
       console.log(this.comment);
       this.commentForm.reset({
         author: '',
