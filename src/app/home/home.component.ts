@@ -36,14 +36,29 @@ export class HomeComponent implements OnInit {
               this.dishErrMess = `An error occurred: ${err.error.message}`;
             } else {
               this.dishErrMess =`Backend returned code ${err.status} body was: ${err.error}`;
-
             }
           }
         );
     this.promotionservice.getFeaturedPromotion()
-        .subscribe(promotion => this.promotion = promotion);
+        .subscribe(promotion => this.promotion = promotion[0],
+          (err: HttpErrorResponse) => {
+            if (err.error instanceof Error) {
+              this.promotionErrMess = `An error occurred: ${err.error.message}`;
+            } else {
+              this.promotionErrMess =`Backend returned code ${err.status} body was: ${err.error}`;
+            }
+          }
+        );
     this.leaderservice.getFeaturedLeader()
-        .subscribe(leader => this.leader = leader[0]);
+        .subscribe(leader => this.leader = leader[0],
+          (err: HttpErrorResponse) => {
+            if (err.error instanceof Error) {
+              this.leaderErrMess = `An error occurred: ${err.error.message}`;
+            } else {
+              this.leaderErrMess =`Backend returned code ${err.status} body was: ${err.error}`;
+            }
+          }
+        );
   }
 
 }
