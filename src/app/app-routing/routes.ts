@@ -16,7 +16,7 @@ export const routes: Routes = [
           outlet: 'detail'
         }
       ]},
-  { path: 'contact',        component: ContactComponent },
+  { path: 'contactus',        component: ContactComponent },
   { path: 'aboutus',        component: AboutComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
