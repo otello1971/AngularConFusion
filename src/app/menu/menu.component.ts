@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject} from '@angular/core';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
-import {HttpErrorResponse} from '@angular/common/http';
 import { flyInOut, expand } from '../animations/app.animation';
 
 @Component({
@@ -27,15 +26,10 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.dishService.getDishes()
-        .subscribe(dishes => this.dishes = dishes,
-          (err: HttpErrorResponse) => {
-            if (err.error instanceof Error) {
-              this.errMess = `An error occurred: ${err.error.message}`;
-            } else {
-              this.errMess =`Backend returned code ${err.status} body was: ${err.error}`;
-            }
-          }
-        );
+        .subscribe(dishes => this.dishes = dishes, 
+          errorResponse => {
+            this.errMess = "Error with status code: " + errorResponse.status;
+        });
   }
 
 }

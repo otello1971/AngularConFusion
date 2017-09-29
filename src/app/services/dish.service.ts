@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
-//import { HttpClient } from '@angular/common/http';
-//import { ProcessHTTPMsgService } from './process-httpmsg.service';
-
 import { Observable } from 'rxjs/Observable';
-import { baseURL } from '../shared/baseurl';
 import { RestangularModule, Restangular } from 'ngx-restangular';
 
 import { Dish } from '../shared/dish';
-
-import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 @Injectable()

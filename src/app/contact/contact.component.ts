@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
-import { flyInOut } from '../animations/app.animation';
+import { FeedbackService } from '../services/feedback.service';
+import { flyInOut, expand } from '../animations/app.animation';
 
 @Component({
   selector: 'app-contact',
@@ -10,15 +11,17 @@ import { flyInOut } from '../animations/app.animation';
   host: {
     '[@flyInOut]': 'true',
     'style': 'display: block;'
-    },
-  animations: [ flyInOut() ]
+  },
+  animations: [flyInOut(), expand()]
 })
 
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
+  dbFeedback: Feedback; //feedback brought from DB
   contactType = ContactType;
+  errMess: string;  //in case of error msg from DB
 
   formErrors = {
     'firstname': '',
@@ -48,7 +51,8 @@ export class ContactComponent implements OnInit {
     },
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private feedbackservice: FeedbackService,
+    private fb: FormBuilder) {
     this.createForm();
   }
 
@@ -92,17 +96,29 @@ export class ContactComponent implements OnInit {
 
   onSubmit() {
     this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
-    this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
-      telnum: '',
-      email: '',
-      agree: false,
-      contacttype: 'None',
-      message: ''
-    });
+    this.feedbackservice.submitFeedback(this.feedback).subscribe
+      (fbk => { //obtains data from DB
+        this.dbFeedback = fbk; //also toggles returned feedback from DB 
+        //5 secs pause, then reset form
+        let thisForm = this;
+        setTimeout(function () {
+          thisForm.feedback = null;
+          thisForm.dbFeedback = null;
+          thisForm.feedbackForm.reset({
+            firstname: '',
+            lastname: '',
+            telnum: '',
+            email: '',
+            agree: false,
+            contacttype: 'None',
+            message: ''
+          });
+        }, 5000);
+      },
+      errorResponse => {
+        this.feedback = null;
+        this.errMess = "Error with status code: " + errorResponse.status;
+      });
   }
-
 
 }

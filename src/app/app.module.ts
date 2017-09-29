@@ -36,6 +36,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { baseURL } from './shared/baseurl';
 import { HighlightDirective } from './directives/highlight.directive';
+import { FeedbackService } from './services/feedback.service';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,7 @@ import { HighlightDirective } from './directives/highlight.directive';
     HttpClientModule,
     RestangularModule.forRoot(RestangularConfigFactory)
   ],
-  providers: [DishService, PromotionService, LeaderService,
+  providers: [DishService, PromotionService, LeaderService, FeedbackService,
     {provide: 'BaseURL', useValue: baseURL}],
   entryComponents: [LoginComponent],
   bootstrap: [AppComponent],
